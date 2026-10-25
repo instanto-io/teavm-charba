@@ -51,6 +51,9 @@ Every push to `main`, trusted pull request and manual workflow run verifies the
 complete reactor, including the Chromium and WebKit contracts in `charba-demo`.
 CI uses JDK 21, the browser-equipped Instanto container runners, and a fresh Maven
 repository so locally installed snapshots cannot hide missing dependencies.
+Playwright downloads its matching browser revisions into a cache for each job;
+the runner image supplies their OS libraries. Both Maven and browser caches are
+removed after verification.
 Fork pull requests need a maintainer to move the reviewed change to a trusted branch.
 
 After verification succeeds on `main`, the same workflow revision runs `clean deploy`

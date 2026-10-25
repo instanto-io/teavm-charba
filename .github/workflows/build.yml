@@ -24,10 +24,12 @@ jobs:
     env:
       FORGEJO_PACKAGE_USER: ${{ secrets.FORGEJO_PACKAGE_USER }}
       FORGEJO_PACKAGE_TOKEN: ${{ secrets.FORGEJO_PACKAGE_TOKEN || secrets.FORGEJO_PACKAGES_TOKEN || secrets.FORGEJO_PACKAGE_READ_TOKEN }}
-      # The runner image supplies Playwright's Chromium and WebKit installations.
-      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+      # Install the engine revisions selected by this project's Playwright driver.
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '0'
     steps:
       - uses: actions/checkout@v7
+      - name: Allocate the job-local browser cache
+        run: echo "PLAYWRIGHT_BROWSERS_PATH=$RUNNER_TEMP/charba-browsers-${{ github.run_id }}-${{ github.run_attempt }}" >> "$GITHUB_ENV"
       - uses: actions/setup-java@v6
         with:
           distribution: temurin
@@ -43,9 +45,11 @@ jobs:
         if: failure()
         run: |
           find charba-demo/target/failsafe-reports -name '*.txt' -exec cat {} + 2>/dev/null || true
-      - name: Remove the job-local Maven cache
+      - name: Remove the job-local Maven and browser caches
         if: always()
-        run: rm -rf -- "$RUNNER_TEMP/charba-m2-${{ github.run_id }}-${{ github.run_attempt }}"
+        run: >-
+          rm -rf -- "$RUNNER_TEMP/charba-m2-${{ github.run_id }}-${{ github.run_attempt }}"
+          "$PLAYWRIGHT_BROWSERS_PATH"
 
   publish-snapshot:
     # Verification and deployment use the same workflow commit. Manual main runs
