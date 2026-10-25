@@ -43,6 +43,13 @@ Use this artifact instead of `org.pepstock:charba`; including both defines the
 same classes twice. The repository name is `teavm-charba`; the artifact remains
 `charba-compat`. The separate upstream GWT widget distribution is not included.
 
+## Automated snapshots
+
+The complete reactor and Chromium/WebKit browser contracts are verified before
+main-branch snapshots are published to packages.instanto.io. See
+[CI and publication](DEVELOPMENT.md#continuous-integration-and-publication) for
+credentials, the inherited org POMs and the demo’s publication scope.
+
 ## Compatibility and ownership
 
 All 1,742 core Java source files compile. The browser suite verifies the six

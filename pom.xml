@@ -26,15 +26,7 @@
     <developerConnection>scm:git:ssh://git@github.com/instanto-io/teavm-charba.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
-  <!-- Where this reactor publishes. The default is the organisation's GitHub
-       Packages registry; -Partifacts sends the same build to the Nexus at
-       artifacts.instanto.io instead. -->
-  <distributionManagement>
-    <repository>
-      <id>github</id>
-      <url>https://maven.pkg.github.com/instanto-io/teavm-charba</url>
-    </repository>
-  </distributionManagement>
+  <!-- Snapshot publication is inherited from instanto-org-pom via instanto-teavm-pom. -->
   <properties>
     <compat.version>0.1.0-SNAPSHOT</compat.version>
     <spotbugs.skip>false</spotbugs.skip>
@@ -205,15 +197,6 @@
     </plugins>
   </build>
   <profiles>
-    <profile>
-      <id>artifacts</id>
-      <distributionManagement>
-        <repository>
-          <id>artifacts</id>
-          <url>https://artifacts.instanto.io/repository/maven-releases/</url>
-        </repository>
-      </distributionManagement>
-    </profile>
     <profile>
       <id>production</id>
       <properties>

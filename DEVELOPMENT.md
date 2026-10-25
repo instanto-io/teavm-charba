@@ -45,8 +45,34 @@ Browser success covers the scenarios documented in the demo, not every upstream
 API. Keep new compatibility transformations in `teavm-compat` with focused tests;
 keep library-specific API corrections and examples in this repository.
 
-This repository currently has no automated release workflow. Snapshot artifacts
-can be deployed only after configuring credentials for the `github` server ID;
-the root POM points at this repository's GitHub Packages registry. No credential
-values belong in source control. Do not publish a release or claim a supported
-version without rerunning the browser contracts and recording the upstream baseline.
+## Continuous integration and publication
+
+Every push to `main`, trusted pull request and manual workflow run verifies the
+complete reactor, including the Chromium and WebKit contracts in `charba-demo`.
+CI uses JDK 21, the browser-equipped Instanto container runners, and a fresh Maven
+repository so locally installed snapshots cannot hide missing dependencies.
+Fork pull requests need a maintainer to move the reviewed change to a trusted branch.
+
+After verification succeeds on `main`, the same workflow revision runs `clean deploy`
+through the shared `instanto-poms` Maven workflow. The parent chain is
+`teavm-charba-parent` → `instanto-teavm-pom` → `instanto-org-pom`; its
+`forgejo-instanto` snapshot repository is packages.instanto.io. The workflow needs
+`FORGEJO_PACKAGE_USER` and a package-write `FORGEJO_PACKAGE_TOKEN` (or
+`FORGEJO_PACKAGES_TOKEN`). Secrets are supplied by GitHub, never stored in the POM.
+
+Publication includes the parent POM and `charba-compat` artifacts. The full demo is
+built and tested, but retains `maven.deploy.skip`: its `target/site` is a static
+website, not a library release. This workflow does not deploy the website.
+A manual run on `main` repeats verification before publishing; pull requests and
+manual runs on other branches do not publish snapshots.
+
+For local publication, configure the same server credentials and run:
+
+```sh
+mvn --settings .github/maven-settings.xml clean deploy
+```
+
+The checked-in settings bootstrap parent/plugin resolution and reference credentials
+through environment variables. An org POM defines Maven conventions and destinations;
+it cannot create or trigger a repository's GitHub Actions workflow. Published
+`teavm-compat` dependencies are prerequisites; CI deliberately fails if they are absent.
