@@ -25,6 +25,7 @@
   <build>
     <sourceDirectory>${project.build.directory}/teavm-sources</sourceDirectory>
     <resources>
+      <resource><directory>src/main/resources</directory></resource>
       <resource>
         <directory>${project.build.directory}/upstream</directory>
         <includes>

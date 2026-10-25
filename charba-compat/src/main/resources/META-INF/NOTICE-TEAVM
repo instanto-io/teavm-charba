@@ -1,0 +1,10 @@
+Charba for TeaVM
+Copyright 2026 Carl Stainton
+
+Adaptation of the Charba core Java API.
+Charba Copyright 2017-2024 Andrea Stocchero
+Upstream: https://github.com/pepstock-org/Charba
+Source baseline: org.pepstock:charba:6.5:sources (Apache License 2.0).
+The build retains META-INF/LICENSE and META-INF/NOTICE from that archive.
+Chart.js, Luxon and associated bundled scripts retain their own upstream notices.
+This project is an independent TeaVM adaptation, not an upstream Charba release.

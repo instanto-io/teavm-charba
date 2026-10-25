@@ -74,3 +74,5 @@ pins `org.pepstock:charba:6.5:sources`; generated adaptations live under `target
 No edited copy of upstream Java sources is maintained here. See [NOTICE](NOTICE)
 and [LICENSE](LICENSE). Upstream license and notice files are packaged in the
 core JAR. Embedded JavaScript retains its upstream notices.
+
+The built showcase includes a visible **Licenses and notices** link and ships the full upstream license texts alongside its JavaScript. `legal/runtime/provenance.json` records the sources and checksums of runtime notices; refresh these copies when upgrading dependencies. Keep the complete `target/site` directory when publishing or redistributing the showcase.

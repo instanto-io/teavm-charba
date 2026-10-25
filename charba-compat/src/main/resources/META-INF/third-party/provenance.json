@@ -1,0 +1,67 @@
+[
+  {
+    "file": "chartjs-plugin-annotation-LICENSE.txt",
+    "source": "https://raw.githubusercontent.com/chartjs/chartjs-plugin-annotation/v3.0.1/LICENSE.md",
+    "sha256": "868e144ac8fc605036f5a4403fd1007dcb70d69150619b95bc87c200bcbdb8c5"
+  },
+  {
+    "file": "hammer.js-LICENSE.txt",
+    "source": "https://raw.githubusercontent.com/hammerjs/hammer.js/v2.0.8/LICENSE.md",
+    "sha256": "4d93df6544df47a49b25add3aff67ff9ff47e4756d85dd0c3e1beba8520ab9f2"
+  },
+  {
+    "file": "chartjs-adapter-luxon-LICENSE.txt",
+    "source": "https://raw.githubusercontent.com/chartjs/chartjs-adapter-luxon/v1.3.1/LICENSE.md",
+    "sha256": "b4b8355c2cd2b18354980a0c6422181d7bd6e895d94ae88b3570e97c60eea03d"
+  },
+  {
+    "file": "chartjs-plugin-datalabels-LICENSE.txt",
+    "source": "https://raw.githubusercontent.com/chartjs/chartjs-plugin-datalabels/v2.2.0/LICENSE.md",
+    "sha256": "075bb10eabebc9356311ffca1b18fdd470fca8e5c2ce0f6e098430c81c59a624"
+  },
+  {
+    "file": "luxon-LICENSE.txt",
+    "source": "https://raw.githubusercontent.com/moment/luxon/3.4.4/LICENSE.md",
+    "sha256": "6cb2f2bf697ee9c6fa9eb8f227c63ee6e7a3cba42d4717f14c745ef9b6cbc006"
+  },
+  {
+    "file": "chartjs-chart-geo-LICENSE.txt",
+    "source": "https://raw.githubusercontent.com/sgratzl/chartjs-chart-geo/v4.2.8/LICENSE",
+    "sha256": "187ae1ff295e4dcaacf8a290e5d1052e38559c01c0ea1d790c9a3dcdaa960a2a"
+  },
+  {
+    "file": "ml-LICENSE.txt",
+    "source": "https://raw.githubusercontent.com/mljs/ml/v6.0.0/LICENSE",
+    "sha256": "546d1e1289879403afd92f06a5c0f937463c18025aa0b931eabe0db8d605285d"
+  },
+  {
+    "file": "chartjs-chart-sankey-LICENSE.txt",
+    "source": "https://raw.githubusercontent.com/kurkle/chartjs-chart-sankey/v0.12.0/LICENSE",
+    "sha256": "d1333048899788cbcee06ba5347da693e5217860d2f3011259e7a8b1c6919799"
+  },
+  {
+    "file": "chartjs-chart-matrix-LICENSE.txt",
+    "source": "https://raw.githubusercontent.com/kurkle/chartjs-chart-matrix/v2.0.1/LICENSE",
+    "sha256": "1a67f7d69415a74fb9af2e7e0ec651dac7eb0312030bddfb70b50b41dd983d67"
+  },
+  {
+    "file": "chartjs-plugin-zoom-LICENSE.txt",
+    "source": "https://raw.githubusercontent.com/chartjs/chartjs-plugin-zoom/v2.0.1/LICENSE.md",
+    "sha256": "faf50ba4a21e0c740c96e9bbce1b862273cfe5dd2cdf200d3271a781094c6ba9"
+  },
+  {
+    "file": "chartjs-plugin-gradient-LICENSE.txt",
+    "source": "https://raw.githubusercontent.com/kurkle/chartjs-plugin-gradient/v0.6.1/LICENSE",
+    "sha256": "161e089e91548df9ad7d2a8d0858526eeef835d5686c92b2198afd01b8f2dfe6"
+  },
+  {
+    "file": "chartjs-chart-treemap-LICENSE.txt",
+    "source": "https://raw.githubusercontent.com/kurkle/chartjs-chart-treemap/v2.3.0/LICENSE",
+    "sha256": "1a67f7d69415a74fb9af2e7e0ec651dac7eb0312030bddfb70b50b41dd983d67"
+  },
+  {
+    "file": "Chart.js-LICENSE.txt",
+    "source": "https://raw.githubusercontent.com/chartjs/Chart.js/v4.4.1/LICENSE.md",
+    "sha256": "5a0877ad6d818529be4f33009d0942cdf7e2ed7656156f4aba7308459a546030"
+  }
+]

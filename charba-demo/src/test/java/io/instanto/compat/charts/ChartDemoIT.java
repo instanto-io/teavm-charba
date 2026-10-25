@@ -152,4 +152,33 @@ public class ChartDemoIT {
       server.stop(0);
     }
   }
+
+  @org.junit.Test
+  public void showcaseShipsCompleteLicenseLinks() throws Exception {
+    java.nio.file.Path site = java.nio.file.Path.of("target/site");
+    org.junit.Assert.assertTrue(
+        java.nio.file.Files.readString(site.resolve("index.html"))
+            .contains("href=\"legal/index.html\""));
+    org.junit.Assert.assertEquals(
+        java.nio.file.Files.readString(java.nio.file.Path.of("../LICENSE")),
+        java.nio.file.Files.readString(site.resolve("legal/project/LICENSE")));
+    org.junit.Assert.assertEquals(
+        java.nio.file.Files.readString(java.nio.file.Path.of("../NOTICE")),
+        java.nio.file.Files.readString(site.resolve("legal/project/NOTICE")));
+    try (var pages = java.nio.file.Files.walk(site.resolve("legal"))) {
+      for (var page : pages.filter(p -> p.toString().endsWith(".html")).toList()) {
+        var links =
+            java.util.regex.Pattern.compile("href=\"([^\"]+)\"")
+                .matcher(java.nio.file.Files.readString(page));
+        while (links.find()) {
+          String href = links.group(1);
+          if (!href.contains(":")) {
+            org.junit.Assert.assertTrue(
+                page + " has missing license link " + href,
+                java.nio.file.Files.isRegularFile(page.getParent().resolve(href).normalize()));
+          }
+        }
+      }
+    }
+  }
 }

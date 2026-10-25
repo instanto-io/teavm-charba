@@ -83,6 +83,16 @@
                 <resource>
                   <directory>src/main/webapp</directory>
                 </resource>
+                <resource>
+                  <directory>${project.basedir}/..</directory>
+                  <targetPath>legal/project</targetPath>
+                  <includes><include>LICENSE</include><include>NOTICE</include></includes>
+                </resource>
+                <resource>
+                  <directory>${project.basedir}/../charba-compat/target/classes/META-INF</directory>
+                  <targetPath>legal/charba</targetPath>
+                  <includes><include>LICENSE</include><include>NOTICE</include><include>third-party/**</include></includes>
+                </resource>
               </resources>
             </configuration>
           </execution>

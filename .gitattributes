@@ -1,0 +1,4 @@
+
+# Preserve exact upstream license bytes recorded by provenance checksums.
+charba-demo/src/main/webapp/legal/runtime/** -text
+charba-compat/src/main/resources/META-INF/third-party/** -text
