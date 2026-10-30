@@ -76,3 +76,10 @@ and [LICENSE](LICENSE). Upstream license and notice files are packaged in the
 core JAR. Embedded JavaScript retains its upstream notices.
 
 The built showcase includes a visible **Licenses and notices** link and ships the full upstream license texts alongside its JavaScript. `legal/runtime/provenance.json` records the sources and checksums of runtime notices; refresh these copies when upgrading dependencies. Keep the complete `target/site` directory when publishing or redistributing the showcase.
+
+## Quality
+
+SpotBugs runs on every build. High-priority findings fail the build, and all findings are published to [code scanning](https://github.com/instanto-io/teavm-charba/security/code-scanning). SonarQube analysis runs on `main` against the organisation's private instance; maintainers see the gate, coverage and issue counts in the workflow summary. The Sonar quality gate is advisory, so a snapshot still publishes when only that gate fails.
+
+See [Actions](https://github.com/instanto-io/teavm-charba/actions) for the latest verification and quality summary.
+
