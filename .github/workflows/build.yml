@@ -10,6 +10,8 @@ permissions:
   contents: read
   # Required by the shared Maven publication workflow.
   packages: write
+  # Required to publish SpotBugs SARIF to code scanning.
+  security-events: write
 
 concurrency:
   group: charba-${{ github.ref }}
@@ -26,6 +28,7 @@ jobs:
       FORGEJO_PACKAGE_TOKEN: ${{ secrets.FORGEJO_PACKAGE_TOKEN || secrets.FORGEJO_PACKAGES_TOKEN || secrets.FORGEJO_PACKAGE_READ_TOKEN }}
       # Install the engine revisions selected by this project's Playwright driver.
       PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '0'
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     steps:
       - uses: actions/checkout@v7
       - name: Allocate the job-local browser cache
@@ -41,6 +44,39 @@ jobs:
           --update-snapshots
           -Dmaven.repo.local="$RUNNER_TEMP/charba-m2-${{ github.run_id }}-${{ github.run_attempt }}"
           clean verify
+      - name: SonarQube analysis
+        # Analysis belongs to the default branch only: a pull-request run would
+        # otherwise replace the project's main analysis with unmerged code.
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && env.SONAR_TOKEN != ''
+        continue-on-error: true
+        env:
+          SONAR_HOST_URL: https://sonar.instanto.io
+        run: >-
+          mvn --settings .github/maven-settings.xml --batch-mode --no-transfer-progress
+          -Dmaven.repo.local="$RUNNER_TEMP/charba-m2-${{ github.run_id }}-${{ github.run_attempt }}"
+          sonar:sonar -Dsonar.projectKey=teavm-charba -Dsonar.projectName=teavm-charba
+          -Dsonar.qualitygate.wait=true
+      - name: Collect SpotBugs SARIF
+        if: always()
+        run: |
+          rm -rf target/spotbugs-reports
+          mkdir -p target/spotbugs-reports
+          find . -path '*/target/spotbugs/*.sarif' -exec cp {} target/spotbugs-reports/ \;
+      - name: Upload SpotBugs SARIF
+        if: always()
+        continue-on-error: true
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: target/spotbugs-reports
+          category: spotbugs
+      - name: Upload SpotBugs reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: spotbugs-reports
+          path: '**/target/spotbugs/'
+          if-no-files-found: ignore
+          retention-days: 7
       - name: Show browser test failures
         if: failure()
         run: |
