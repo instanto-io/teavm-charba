@@ -56,19 +56,13 @@ jobs:
           -Dmaven.repo.local="$RUNNER_TEMP/charba-m2-${{ github.run_id }}-${{ github.run_attempt }}"
           sonar:sonar -Dsonar.projectKey=teavm-charba -Dsonar.projectName=teavm-charba
           -Dsonar.qualitygate.wait=true
-      - name: Collect SpotBugs SARIF
-        if: always()
-        run: |
-          rm -rf target/spotbugs-reports
-          mkdir -p target/spotbugs-reports
-          find . -path '*/target/spotbugs/*.sarif' -exec cp {} target/spotbugs-reports/ \;
-      - name: Upload SpotBugs SARIF
+      - name: Publish quality summary
         if: always()
         continue-on-error: true
-        uses: github/codeql-action/upload-sarif@v3
+        uses: instanto-io/instanto-poms/.github/actions/quality-summary@main
         with:
-          sarif_file: target/spotbugs-reports
-          category: spotbugs
+          sonar-project-key: teavm-charba
+          sonar-token: ${{ secrets.SONAR_READ_TOKEN || secrets.SONAR_TOKEN }}
       - name: Upload SpotBugs reports
         if: always()
         uses: actions/upload-artifact@v4
