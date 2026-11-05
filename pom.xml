@@ -28,6 +28,7 @@
   </scm>
   <!-- Snapshot publication is inherited from instanto-org-pom via instanto-teavm-pom. -->
   <properties>
+    <instanto.repository>teavm-charba</instanto.repository>
     <compat.version>0.1.0-SNAPSHOT</compat.version>
     <maven.compiler.release>17</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
