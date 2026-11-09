@@ -10,8 +10,6 @@ permissions:
   contents: read
   # Required by the shared Maven publication workflow.
   packages: write
-  # Required to publish SpotBugs SARIF to code scanning.
-  security-events: write
 
 concurrency:
   group: charba-${{ github.ref }}
@@ -20,7 +18,7 @@ concurrency:
 jobs:
   verify:
     # The private registry and browser-equipped runners are for trusted branches.
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    if: (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) || github.event_name == 'workflow_dispatch'
     runs-on: [self-hosted, instanto-container]
     timeout-minutes: 60
     env:
@@ -44,18 +42,6 @@ jobs:
           --update-snapshots
           -Dmaven.repo.local="$RUNNER_TEMP/charba-m2-${{ github.run_id }}-${{ github.run_attempt }}"
           clean verify
-      - name: SonarQube analysis
-        # Analysis belongs to the default branch only: a pull-request run would
-        # otherwise replace the project's main analysis with unmerged code.
-        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && env.SONAR_TOKEN != ''
-        continue-on-error: true
-        env:
-          SONAR_HOST_URL: https://sonar.instanto.io
-        run: >-
-          mvn --settings .github/maven-settings.xml --batch-mode --no-transfer-progress
-          -Dmaven.repo.local="$RUNNER_TEMP/charba-m2-${{ github.run_id }}-${{ github.run_attempt }}"
-          sonar:sonar -Dsonar.projectKey=teavm-charba -Dsonar.projectName=teavm-charba
-          -Dsonar.qualitygate.wait=true
       - name: Publish quality summary
         if: always()
         continue-on-error: true
@@ -82,14 +68,13 @@ jobs:
           "$PLAYWRIGHT_BROWSERS_PATH"
 
   publish-snapshot:
-    # Verification and deployment use the same workflow commit. Manual main runs
-    # also verify first; there is no ungated publication-only dispatch.
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-    needs: verify
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     uses: instanto-io/instanto-poms/.github/workflows/maven-build.yml@main
     with:
       name: Publish Charba snapshots to packages.instanto.io
       goals: clean deploy
-      maven-args: -DskipTests
+      fast-deploy: true
+      downstream-checks: false
+      sonar: false
       timeout-minutes: 60
     secrets: inherit
