@@ -10,8 +10,13 @@ import org.pepstock.charba.client.events.ChartClickEventHandler;
 
 /** Interactive examples of the upstream Charba Java API adapted to TeaVM. */
 public final class ChartDemo {
+  private static final String INDIGO_SERIES_COLOR = "#4f46e5";
+  private static final String CLICK_EVENT = "click";
+
   private static final String[] EXAMPLES = {"bar", "line", "area", "doughnut", "radar", "polar"};
-  private static final String[] COLORS = {"#4f46e5", "#14b8a6", "#f59e0b", "#ec4899", "#60a5fa"};
+  private static final String[] COLORS = {
+    INDIGO_SERIES_COLOR, "#14b8a6", "#f59e0b", "#ec4899", "#60a5fa"
+  };
   private static AbstractChart chart;
   private static Dataset dataset;
   private static String selected = "bar";
@@ -32,7 +37,7 @@ public final class ChartDemo {
       DomGlobal.document
           .getElementById("example-" + example)
           .addEventListener(
-              "click",
+              CLICK_EVENT,
               event -> {
                 destroy();
                 selected = example;
@@ -43,7 +48,7 @@ public final class ChartDemo {
     DomGlobal.document
         .getElementById("update")
         .addEventListener(
-            "click",
+            CLICK_EVENT,
             event -> {
               if (chart == null) return;
               revision++;
@@ -52,11 +57,11 @@ public final class ChartDemo {
               chart.update();
               status("Updated · revision " + revision);
             });
-    DomGlobal.document.getElementById("destroy").addEventListener("click", event -> destroy());
+    DomGlobal.document.getElementById("destroy").addEventListener(CLICK_EVENT, event -> destroy());
     DomGlobal.document
         .getElementById("recreate")
         .addEventListener(
-            "click",
+            CLICK_EVENT,
             event -> {
               destroy();
               create();
@@ -71,7 +76,7 @@ public final class ChartDemo {
       case "line", "area" -> {
         LineChart line = new LineChart();
         LineDataset series = line.newDataset();
-        series.setBorderColor("#4f46e5");
+        series.setBorderColor(INDIGO_SERIES_COLOR);
         series.setBackgroundColor("rgba(79,70,229,0.16)");
         series.setBorderWidth(3);
         series.setTension(0.35);
@@ -126,7 +131,7 @@ public final class ChartDemo {
         BarChart bars = new BarChart();
         BarDataset series = bars.newDataset();
         series.setBackgroundColor(
-            context -> context.getDataIndex() % 2 == 0 ? "#4f46e5" : "#14b8a6");
+            context -> context.getDataIndex() % 2 == 0 ? INDIGO_SERIES_COLOR : "#14b8a6");
         chart = bars;
         dataset = series;
         title = "Bar chart";
